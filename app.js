@@ -7,6 +7,84 @@
    cual en GitHub Pages.
    ========================================================= */
 
+/* ---------------------------------------------------------
+   PARTE A — Interfaz que NO depende de Three.js:
+   el botón de música y el revelado de tarjetas al hacer
+   scroll. Va en su propio bloque, separado del bloque de
+   abajo, para que sigan funcionando aunque el lienzo 3D
+   falle por cualquier motivo (WebGL bloqueado, CDN caída, etc).
+   --------------------------------------------------------- */
+(function () {
+  "use strict";
+
+  // Revelado de tarjetas al hacer scroll
+  const revealEls = document.querySelectorAll(
+    ".entry-card, .reveal-text, .gallery-grid"
+  );
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add("in-view"));
+  }
+
+  // Reproductor de música
+  const audio = document.getElementById("bg-audio");
+  const musicBtn = document.getElementById("music-toggle");
+  const musicHint = document.getElementById("music-hint");
+  let isPlaying = false;
+  let hintTimeout = null;
+
+  function showHint() {
+    if (!musicHint) return;
+    musicHint.classList.add("show");
+    clearTimeout(hintTimeout);
+    hintTimeout = setTimeout(() => musicHint.classList.remove("show"), 4500);
+  }
+
+  if (musicBtn && audio) {
+    musicBtn.addEventListener("click", () => {
+      if (!isPlaying) {
+        audio
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicBtn.classList.add("playing");
+            musicBtn.setAttribute("aria-pressed", "true");
+            musicBtn.setAttribute("aria-label", "Pausar música");
+          })
+          .catch((err) => {
+            console.warn("No se pudo reproducir el audio:", err);
+            showHint();
+          });
+      } else {
+        audio.pause();
+        isPlaying = false;
+        musicBtn.classList.remove("playing");
+        musicBtn.setAttribute("aria-pressed", "false");
+        musicBtn.setAttribute("aria-label", "Reproducir música");
+      }
+    });
+  } else {
+    console.warn("No se encontró el botón de música o el audio en el HTML.");
+  }
+})();
+
+/* ---------------------------------------------------------
+   PARTE B — El lienzo 3D (Three.js): galaxia que converge
+   en un corazón. Si algo aquí falla, la PARTE A de arriba
+   ya corrió y sigue funcionando sin problema.
+   --------------------------------------------------------- */
 (function () {
   "use strict";
 
@@ -365,67 +443,4 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     updateAspectFactor();
   });
-
-  // -----------------------------------------------------
-  // 9. Revelado de tarjetas al hacer scroll
-  // -----------------------------------------------------
-  const revealEls = document.querySelectorAll(
-    ".entry-card, .reveal-text, .gallery-grid"
-  );
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    revealEls.forEach((el) => observer.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add("in-view"));
-  }
-
-  // -----------------------------------------------------
-  // 10. Reproductor de música
-  // -----------------------------------------------------
-  const audio = document.getElementById("bg-audio");
-  const musicBtn = document.getElementById("music-toggle");
-  const musicHint = document.getElementById("music-hint");
-  let isPlaying = false;
-  let hintTimeout = null;
-
-  function showHint() {
-    if (!musicHint) return;
-    musicHint.classList.add("show");
-    clearTimeout(hintTimeout);
-    hintTimeout = setTimeout(() => musicHint.classList.remove("show"), 4500);
-  }
-
-  if (musicBtn && audio) {
-    musicBtn.addEventListener("click", () => {
-      if (!isPlaying) {
-        audio
-          .play()
-          .then(() => {
-            isPlaying = true;
-            musicBtn.classList.add("playing");
-            musicBtn.setAttribute("aria-pressed", "true");
-            musicBtn.setAttribute("aria-label", "Pausar música");
-          })
-          .catch(() => {
-            showHint();
-          });
-      } else {
-        audio.pause();
-        isPlaying = false;
-        musicBtn.classList.remove("playing");
-        musicBtn.setAttribute("aria-pressed", "false");
-        musicBtn.setAttribute("aria-label", "Reproducir música");
-      }
-    });
-  }
 })();
