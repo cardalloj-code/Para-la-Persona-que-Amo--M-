@@ -51,7 +51,7 @@
     spiralTightness: 0.32,
     camNear: 300,
     camFar: 430,
-    formationScrollFraction: 0.35, // % de scroll total en que el corazón ya está formado
+    formationViewportMultiplier: 0.85, // cuántas "pantallas" de scroll tarda en formarse el corazón
     beatPeriod: 1.15, // segundos entre latidos (~52 bpm, calmo)
     beatAmplitude: 0.05,
     colors: {
@@ -279,12 +279,10 @@
   let prevPhase = 0;
 
   function getFormProgress() {
-    const scrollable =
-      document.documentElement.scrollHeight - window.innerHeight;
-    const frac = scrollable > 0 ? window.scrollY / scrollable : 0;
-    return easeInOutCubic(
-      clamp(frac / CONFIG.formationScrollFraction, 0, 1)
-    );
+    const formationDistance =
+      window.innerHeight * CONFIG.formationViewportMultiplier;
+    const frac = formationDistance > 0 ? window.scrollY / formationDistance : 0;
+    return easeInOutCubic(clamp(frac, 0, 1));
   }
 
   function heartbeat(elapsedSec, formProgress) {
@@ -371,7 +369,9 @@
   // -----------------------------------------------------
   // 9. Revelado de tarjetas al hacer scroll
   // -----------------------------------------------------
-  const cards = document.querySelectorAll(".entry-card");
+  const revealEls = document.querySelectorAll(
+    ".entry-card, .reveal-text, .gallery-grid"
+  );
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -384,9 +384,9 @@
       },
       { threshold: 0.2 }
     );
-    cards.forEach((card) => observer.observe(card));
+    revealEls.forEach((el) => observer.observe(el));
   } else {
-    cards.forEach((card) => card.classList.add("in-view"));
+    revealEls.forEach((el) => el.classList.add("in-view"));
   }
 
   // -----------------------------------------------------
