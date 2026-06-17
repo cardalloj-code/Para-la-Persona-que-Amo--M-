@@ -1,0 +1,396 @@
+/* =========================================================
+   GALAXY GALLERY — estilos
+   Paleta: púrpura/rosa neón cósmico
+   Tipografía: Fraunces (display) · Work Sans (cuerpo) · Space Mono (utilitaria)
+   ========================================================= */
+
+:root {
+  /* color */
+  --void-deep: #05010a;
+  --void: #0a0116;
+  --core: #ff2d92;
+  --core-soft: #ff7fd0;
+  --mid: #b347ff;
+  --edge: #4b2980;
+  --text: #f3e9ff;
+  --text-dim: #b6a0d9;
+  --glass-fill: rgba(255, 255, 255, 0.055);
+  --glass-fill-strong: rgba(255, 255, 255, 0.09);
+  --glass-border: rgba(255, 255, 255, 0.16);
+
+  /* tipografía */
+  --font-display: "Fraunces", "Iowan Old Style", serif;
+  --font-body: "Work Sans", -apple-system, sans-serif;
+  --font-mono: "Space Mono", "SF Mono", monospace;
+
+  /* espaciado */
+  --card-max: 600px;
+  --gutter: clamp(20px, 6vw, 64px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--void);
+  background-image: radial-gradient(
+    ellipse 90% 60% at 50% 20%,
+    var(--mid) 0%,
+    var(--void) 55%,
+    var(--void-deep) 100%
+  );
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------------------------------------------------------
+   Lienzo 3D
+   --------------------------------------------------------- */
+#cosmos {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   Contenido (encima del lienzo)
+   --------------------------------------------------------- */
+#content {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 18px;
+}
+
+/* ---------------------------------------------------------
+   Hero
+   --------------------------------------------------------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--gutter);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 9vw, 5.2rem);
+  line-height: 1.05;
+  margin: 0 0 22px;
+  color: var(--text);
+}
+
+.hero h1 .name {
+  background: linear-gradient(100deg, var(--core-soft), var(--mid) 65%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 36px rgba(255, 45, 146, 0.35);
+}
+
+.hero-sub {
+  max-width: 480px;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.scroll-cue {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  animation: cue-bob 2.6s ease-in-out infinite;
+}
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+}
+
+/* ---------------------------------------------------------
+   Bitácora de razones
+   --------------------------------------------------------- */
+.log {
+  padding: 6vh var(--gutter) 12vh;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 10vh, 110px);
+}
+
+.entry {
+  display: flex;
+  width: 100%;
+}
+
+.entry.align-left { justify-content: flex-start; }
+.entry.align-right { justify-content: flex-end; }
+
+.entry-card {
+  max-width: var(--card-max);
+  width: 100%;
+  padding: clamp(26px, 4vw, 40px);
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.entry-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entry-card {
+    transition: opacity 0.3s ease;
+    transform: none;
+  }
+}
+
+/* Glassmorphism: cristal esmerilado con un corte asimétrico como firma visual */
+.glass {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px 34px 4px 34px;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 18px 60px -20px rgba(179, 71, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 64%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--core-soft), transparent);
+}
+
+.entry-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 14px;
+}
+
+.entry-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  margin: 0 0 14px;
+  color: var(--core-soft);
+}
+
+.entry-text {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text);
+  margin: 0;
+}
+
+/* Espacio para fotos: gradiente "agujero negro" + ícono, hasta que se reemplace por <img> */
+.photo-slot {
+  aspect-ratio: 4 / 3;
+  border-radius: 2px 26px 2px 26px;
+  background: radial-gradient(circle at 50% 45%, var(--core) 0%, var(--mid) 45%, var(--edge) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.photo-slot span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 0 16px;
+}
+
+.with-photo .entry-title {
+  margin-bottom: 16px;
+}
+
+/* ---------------------------------------------------------
+   Cierre
+   --------------------------------------------------------- */
+.closing {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--gutter);
+}
+
+.closing h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin: 0 0 20px;
+}
+
+.closing-text {
+  max-width: 460px;
+  line-height: 1.75;
+  color: var(--text-dim);
+  margin: 0 0 28px;
+}
+
+.signature {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--core-soft);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   Reproductor de música (botón flotante)
+   --------------------------------------------------------- */
+#music-toggle {
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  z-index: 10;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill-strong);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+#music-toggle:hover {
+  transform: scale(1.06);
+}
+
+#music-toggle:focus-visible {
+  outline: 2px solid var(--core-soft);
+  outline-offset: 3px;
+}
+
+#music-toggle.playing {
+  box-shadow: 0 0 0 0 rgba(255, 45, 146, 0.5);
+  animation: music-pulse 1.6s ease-out infinite;
+}
+
+@keyframes music-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 45, 146, 0.45); }
+  70% { box-shadow: 0 0 0 14px rgba(255, 45, 146, 0); }
+  100% { box-shadow: 0 0 0 14px rgba(255, 45, 146, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #music-toggle.playing { animation: none; }
+}
+
+.icon { width: 20px; height: 20px; }
+.icon-pause { display: none; }
+#music-toggle.playing .icon-note { display: none; }
+#music-toggle.playing .icon-pause { display: block; }
+
+.music-hint {
+  position: fixed;
+  bottom: 86px;
+  right: 26px;
+  z-index: 10;
+  max-width: 220px;
+  margin: 0;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.music-hint.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.music-hint code {
+  color: var(--core-soft);
+}
+
+/* ---------------------------------------------------------
+   Responsive: en pantallas chicas las tarjetas siempre centradas
+   --------------------------------------------------------- */
+@media (max-width: 640px) {
+  .entry.align-left,
+  .entry.align-right {
+    justify-content: center;
+  }
+}

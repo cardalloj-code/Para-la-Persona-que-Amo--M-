@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Princesa — un universo a su medida</title>
+<meta name="description" content="Una galaxia que se convierte en un corazón, hecha para Princesa.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&family=Work+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Lienzo 3D: galaxia que se convierte en corazón -->
+  <canvas id="cosmos" aria-hidden="true"></canvas>
+
+  <!-- Audio de fondo: reemplaza el archivo en assets/musica/cancion.mp3 -->
+  <audio id="bg-audio" loop preload="none">
+    <source src="assets/musica/cancion.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="music-toggle" aria-pressed="false" aria-label="Reproducir música">
+    <svg class="icon icon-note" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 18V5l11-2v13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17" cy="16" r="3" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+    <svg class="icon icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/>
+      <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/>
+    </svg>
+  </button>
+  <p id="music-hint" class="music-hint">Agrega tu canción en <code>assets/musica/cancion.mp3</code> para activar esto.</p>
+
+  <main id="content">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <p class="eyebrow">transmisión desde el centro del cosmos</p>
+      <h1>Para <span class="name">Princesa</span></h1>
+      <p class="hero-sub">
+        Ahí afuera hay una galaxia entera que no sabía qué forma tomar,
+        hasta que decidió ordenarse sola en un corazón. Sigue bajando para verlo.
+      </p>
+      <div class="scroll-cue" aria-hidden="true">
+        <span>desliza</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ===================== BITÁCORA DE RAZONES ===================== -->
+    <section class="log" aria-label="Razones">
+
+      <article class="entry align-left" data-index="01">
+        <div class="entry-card glass">
+          <p class="entry-tag">registro n.º 001 · coord. 24.7° ari</p>
+          <!-- ✏️ EDITA: pon el título de tu primera razón o recuerdo -->
+          <h2 class="entry-title">El instante que no vi venir</h2>
+          <!-- ✏️ EDITA: reemplaza este párrafo por tu propia razón/recuerdo -->
+          <p class="entry-text">
+            Hay momentos que uno reconoce como importantes solo después,
+            cuando ya pasaron. Contigo no fue así: desde el primer instante
+            supe que algo distinto estaba empezando.
+          </p>
+        </div>
+      </article>
+
+      <article class="entry align-right" data-index="02">
+        <div class="entry-card glass with-photo">
+          <p class="entry-tag">registro n.º 002 · adjunto visual</p>
+          <h2 class="entry-title">Un momento que merece estar aquí</h2>
+          <!-- ✏️ EDITA: reemplaza este div por una <img src="assets/fotos/foto1.jpg" alt="..."> -->
+          <div class="photo-slot">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21s-7.5-4.6-9.7-9.1C.7 8.4 2.4 5 6 5c2 0 3.4 1 4 2 .6-1 2-2 4-2 3.6 0 5.3 3.4 3.7 6.9C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+            <span>Agrega tu imagen en assets/fotos/</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry align-left" data-index="03">
+        <div class="entry-card glass">
+          <p class="entry-tag">registro n.º 003 · coord. 8.2° tau</p>
+          <!-- ✏️ EDITA: título -->
+          <h2 class="entry-title">Lo que nadie más nota</h2>
+          <!-- ✏️ EDITA: párrafo -->
+          <p class="entry-text">
+            Hay gestos tuyos tan pequeños que probablemente ni te das cuenta
+            de que los haces. Para mí se volvieron, sin que lo planeara,
+            la parte favorita de cualquier día.
+          </p>
+        </div>
+      </article>
+
+      <article class="entry align-right" data-index="04">
+        <div class="entry-card glass">
+          <!-- ✏️ EDITA: título -->
+          <p class="entry-tag">registro n.º 004 · coord. 15.9° gem</p>
+          <h2 class="entry-title">Lo que pienso y no siempre digo</h2>
+          <!-- ✏️ EDITA: párrafo -->
+          <p class="entry-text">
+            Hay cosas que pienso casi todos los días y que rara vez digo en
+            voz alta. Esta página es, un poco, el lugar donde empiezo a
+            decirlas.
+          </p>
+        </div>
+      </article>
+
+      <article class="entry align-left" data-index="05">
+        <div class="entry-card glass with-photo">
+          <p class="entry-tag">registro n.º 005 · adjunto visual</p>
+          <h2 class="entry-title">Otra prueba de que esto fue real</h2>
+          <!-- ✏️ EDITA: reemplaza este div por una <img src="assets/fotos/foto2.jpg" alt="..."> -->
+          <div class="photo-slot">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21s-7.5-4.6-9.7-9.1C.7 8.4 2.4 5 6 5c2 0 3.4 1 4 2 .6-1 2-2 4-2 3.6 0 5.3 3.4 3.7 6.9C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+            <span>Agrega tu imagen en assets/fotos/</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry align-right" data-index="06">
+        <div class="entry-card glass">
+          <p class="entry-tag">registro n.º 006 · coord. 30.1° leo</p>
+          <!-- ✏️ EDITA: título -->
+          <h2 class="entry-title">Lo que viene</h2>
+          <!-- ✏️ EDITA: párrafo -->
+          <p class="entry-text">
+            No tengo un plan perfecto ni todas las respuestas. Pero sí sé
+            que quiero seguir descubriendo, día por día, todo lo que
+            todavía no sabemos del otro.
+          </p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- ===================== CIERRE ===================== -->
+    <section class="closing">
+      <p class="eyebrow">fin de la transmisión — por ahora</p>
+      <h2>Esto apenas empieza.</h2>
+      <!-- ✏️ EDITA: mensaje final y firma -->
+      <p class="closing-text">
+        Lo que ves aquí es solo una versión temprana de algo que sigue
+        creciendo, igual que nosotros. Hecho con código, paciencia y,
+        sobre todo, contigo en mente.
+      </p>
+      <p class="signature">— tu nombre aquí</p>
+    </section>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
